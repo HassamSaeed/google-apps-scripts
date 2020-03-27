@@ -1,24 +1,31 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script can be used to Syncronise 2 Different Google Sheets.
+
+// How To Use It:
+// Goto https://script.google.com/home
+// Make A new Script
+// Paste Following Script In Your Script
+// Change Global Variables as per your requirements.
+// Set Trigger As Per your requirements.
+// Run and then Authorise Script.
+
 // =============================================================================================
 // =============  Global Variables - Change this section according to your needs ===============
 // =============================================================================================
 
 //Write the ID of the Sheet from which you want to import data
-var importFromSheetId = '1I2SUoi7rdfLVAEqcaUBe-13eGduMiFZL6J7yHLH8Bug';     // ImportRange Spreadsheet ID
-var importFromSheetName = 'Main';                                           // Sheet Name of importRange sheet
+var importFromSheetId = 'SS-ID';     // ImportRange Spreadsheet ID
+var importFromSheetName = 'SS-NAME';                                           // Sheet Name of importRange sheet
 
 //Write the Name of Sheet in the Active Spreadsheet(with which this script is attached). 
-var importToSheetName = 'Main';                                            //Sheet Name where you want to store imported data
+var importToSheetName = 'SS2-NAME';                                            //Sheet Name where you want to store imported data
 
 // From the sheet which you want to import data, write down the header(title) of the columns which you want to fetch.
 var requiredColumns = [
-                      "WCF Order Number",
-                      "WCF Input Date","State",
-                      "Phone Model",
-                      "Custom Text",
-                      "Ultra Case?",
-                      "Speedy Delivery?",
-                      "Mock up approved?",
-                      "Notes if no <--- "
+                      "COL1-NAME",
+                      "COL2-NAME",
+					  "COL3-NAME",  // .......ColX-NAME
                        ];
 
 
@@ -27,15 +34,9 @@ var requiredColumns = [
 // Important: 1) Sequence must be the same   2) Number of Columns must be same
 
 var SyncColumns = [
-                    "WCF Order Number", 
-                    "Date Received",
-                    "State",
-                    "Phone Model",
-                    "Custom Text",
-                    "Ultra Case",
-                    "Speedy Delivery?",
-                    "Approved?",
-                    "If no feedback and go back STEPS"
+                    "COL1-NAME",
+                    "COL2-NAME",
+					"COL3-NAME",  // .......ColX-NAME
                     ]
 
 
