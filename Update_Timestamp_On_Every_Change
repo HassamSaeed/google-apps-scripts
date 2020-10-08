@@ -10,6 +10,9 @@
 // Save the file and then start using Google Sheets. 
 // Note: This script doesn't needs authorization.
 
+// Get Copy of Sheet in Action at:
+// https://docs.google.com/spreadsheets/d/1BY2SuGiThZKUayxhlHMPIZ65SN6tfPSemNKn6NkeE5M/copy
+
 // =============================================================================================
 // =============  Global Variables - Change this section according to your needs ===============
 // =============================================================================================
