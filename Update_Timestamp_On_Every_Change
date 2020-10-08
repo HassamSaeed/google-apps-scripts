@@ -1,0 +1,52 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script can be used to update timestamp on each change in a Google Sheet. Script will update first time change timestamp in Col R and subsequent changes in row will be updated in Col S.
+
+// How To Use It:
+// Goto https://script.google.com/home
+// Make A new Script
+// Paste Following Script In Your Script
+// Change Global Variables as per your requirements.
+// Save the file and then start using Google Sheets. 
+// Note: This script doesn't needs authorization.
+
+// =============================================================================================
+// =============  Global Variables - Change this section according to your needs ===============
+// =============================================================================================
+
+// sheetName => Enter the name of the Sheet where you want to excute this script
+const sheetName = 'Sheet1'
+
+// firstUpdateDateCol => Enter the number of Column where you want to put timestamp for the first edit.
+const firstUpdateDateCol = 18
+
+// otherUpdateDateCol => Enter the number of Column where you want to put timestamp for the subsequent edits(i.e after first edit).
+const otherUpdateDateCol = 19
+
+// columnsToCheck => Enter the column number before which script should check. E.g If you will writh 18, it will track edits in first 18 Columns.
+const columnsToCheck = 18
+
+// headerRows => Enter the number of header rows which you want to ignore from tracking.
+const headerRows = 1
+
+
+// =============================================================================================
+// ============  Time Trigger - Change it if you are sure about it =============================
+// =============================================================================================
+
+function onEdit(e) {
+	let row = e.range.getRow();
+	let col = e.range.getColumn();
+    let sheet = e.source.getActiveSheet();
+  
+    if (col < columnsToCheck && row > headerRows && sheet.getName() === sheetName) {
+
+      if(sheet.getRange(row,firstUpdateDateCol).getValue() == '') {
+          sheet.getRange(row,firstUpdateDateCol).setValue(new Date())
+      } else {
+          sheet.getRange(row,otherUpdateDateCol).setValue(new Date())
+      }
+    
+  }
+  
+}
