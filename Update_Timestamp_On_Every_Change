@@ -1,6 +1,6 @@
 // Product: Google Apps Script
 // Copyrights: © GSheets.com
-// About the Script: This Script can be used to update timestamp on each change in a Google Sheet. Script will update first time change timestamp in Col R and subsequent changes in row will be updated in Col S.
+// About the Script: This Script can be used to update timestamp on each change in a Google Sheet. Script will update first time change timestamp in Col R and subsequent changes in row will be updated in Col S. (You can change Columns as per your requirement by changing values in lines 20-33)
 
 // How To Use It:
 // Goto https://script.google.com/home
