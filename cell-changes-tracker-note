@@ -1,0 +1,32 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script can be used to Track Changes made on a Specific Column of a Sheet on each edit action. It places timestamp along with old and new value in cell notes.
+
+// How To Use It:
+// Goto https://script.google.com/home
+// Make A new Script
+// Paste Following Script In Your Script
+// Change Variables Section as per your requirements.
+// Save the script and make changes in the sheet to see the output.
+
+// =============================================================================================
+// ============= Variables - Change this section according to your needs ===============
+// =============================================================================================
+
+let sheetColPair = { 'Payment-Sheet': 8,        // key should be sheet name and value should be column number (where Col A = 1)
+                     'Registration-Sheet': 20   // key should be sheet name and value should be column number (where Col A = 1)
+                    };
+
+// =============================================================================================
+// ============  Change following code if you know coding ======================================
+// =============================================================================================
+
+function onEdit(e) {
+  let sheetName = e.source.getSheetName();
+  if (Object.keys(sheetColPair).includes(sheetName)) {
+    if (e.range.getColumn() === col[sheetName]) {
+      let prevNote = e.range.getNote();
+      e.range.setNote(`${prevNote}${prevNote && '\n'}${new Date().toLocaleString()}: ${e.oldValue} -> ${e.value}`)
+    }
+  }
+}
