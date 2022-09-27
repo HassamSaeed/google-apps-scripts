@@ -24,7 +24,7 @@ let sheetColPair = { 'Payment-Sheet': 8,        // key should be sheet name and 
 function onEdit(e) {
   let sheetName = e.source.getSheetName();
   if (Object.keys(sheetColPair).includes(sheetName)) {
-    if (e.range.getColumn() === col[sheetName]) {
+    if (e.range.getColumn() === sheetColPair[sheetName]) {
       let prevNote = e.range.getNote();
       e.range.setNote(`${prevNote}${prevNote && '\n'}${new Date().toLocaleString()}: ${e.oldValue} -> ${e.value}`)
     }
