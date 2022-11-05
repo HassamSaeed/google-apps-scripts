@@ -15,17 +15,17 @@
 // =============================================================================================
 
 //Write the ID of the Sheet from which you want to import data
-var importFromSheetId = 'SS-ID';     // ImportRange Spreadsheet ID
-var importFromSheetName = 'SS-NAME';                                           // Sheet Name of importRange sheet
+let importFromSheetId = 'SS-ID';     // ImportRange Spreadsheet ID
+let importFromSheetName = 'SS-NAME';                                           // Sheet Name of importRange sheet
 
 //Write the Name of Sheet in the Active Spreadsheet(with which this script is attached). 
-var importToSheetName = 'SS2-NAME';                                            //Sheet Name where you want to store imported data
+let importToSheetName = 'SS2-NAME';                                            //Sheet Name where you want to store imported data
 
 // From the sheet which you want to import data, write down the header(title) of the columns which you want to fetch.
-var requiredColumns = [
+let requiredColumns = [
                       "COL1-NAME",
                       "COL2-NAME",
-					  "COL3-NAME",  // .......ColX-NAME
+		      "COL3-NAME",  // .......ColX-NAME
                        ];
 
 
@@ -33,10 +33,10 @@ var requiredColumns = [
 // What that means is that, you have to write down the Column Names(Header) of Active Sheet(with which this script is attached) in which you want put the imported data.
 // Important: 1) Sequence must be the same   2) Number of Columns must be same
 
-var SyncColumns = [
+let SyncColumns = [
                     "COL1-NAME",
                     "COL2-NAME",
-					"COL3-NAME",  // .......ColX-NAME
+		    "COL3-NAME",  // .......ColX-NAME
                     ]
 
 
@@ -45,26 +45,26 @@ var SyncColumns = [
 // =============================================================================================
 
 function fetchData(){
-  var importFromSheet = SpreadsheetApp.openById(importFromSheetId).getSheetByName(importFromSheetName);
-  var importToSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(importToSheetName);
+  let importFromSheet = SpreadsheetApp.openById(importFromSheetId).getSheetByName(importFromSheetName);
+  let importToSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(importToSheetName);
   
-  var importFromData = importFromSheet.getDataRange().getValues();
-  var importFromHeader = importFromData.shift();
-  var requiredColumnsNumbers = requiredColumns.map(function(v){return importFromHeader.indexOf(v)})
+  let importFromData = importFromSheet.getDataRange().getValues();
+  let importFromHeader = importFromData.shift();
+  let requiredColumnsNumbers = requiredColumns.map(function(v){return importFromHeader.indexOf(v)})
   
-  var requiredData = importFromData.map(function(v){
-    var data = [];
+  let requiredData = importFromData.map(function(v){
+    let data = [];
     requiredColumnsNumbers.forEach(function(w){
       data.push(v[w])
     });
     return data;
   });
   
-  var importToHeader = importToSheet.getRange('A1:1').getValues().reduce(function(p,n){return p.concat(n)});
-  var SyncColumnsNumbers = SyncColumns.map(function(v){return importToHeader.indexOf(v)});
+  let importToHeader = importToSheet.getRange('A1:1').getValues().reduce(function(p,n){return p.concat(n)});
+  let SyncColumnsNumbers = SyncColumns.map(function(v){return importToHeader.indexOf(v)});
   
   SyncColumnsNumbers.forEach(function(v,i){
-    var columnData = requiredData.map(function(w){return [w[i]]});
+    let columnData = requiredData.map(function(w){return [w[i]]});
     importToSheet.getRange(2, v+1,columnData.length,1).setValues(columnData);
   });
 }
