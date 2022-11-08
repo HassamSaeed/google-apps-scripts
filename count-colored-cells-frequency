@@ -1,0 +1,30 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script can be used to Count Colored Cells Frequncy in Google Sheets.
+
+// How To Use It:
+// Copy this whole script
+// Open your Google Sheets
+// On top menu, Goto Extensions > Apps Sript
+// Paste this Script which you already copied and then save the script
+// You are ready to use new Custom function. For example: =COUNT_COLORS("Sheet1", "A1:F6")
+
+/**
+ * Count Colored Cells Frequncy.
+ *
+ * @param {string} Sheet Name e.g Sheet1.
+ * @param {string} range string e.g "A1:F5" - must be enclosed in double quotes.
+ * @return Array of colors along with their frequncy.
+ * @customfunction
+ */
+function COUNT_COLORS(sheetName, range) {
+  let sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName)
+
+  let data = sheet.getRange(range).getBackgrounds()
+              .map(v => v.join(',')).join(',').split(',')
+              .reduce((p,c) => {
+                return {...p, [c]: p[c] ? p[c] + 1 : 1}
+              }, {});
+
+  return Object.keys(data).map(key => [key, data[key]])
+}
