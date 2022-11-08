@@ -9,6 +9,8 @@
 // Paste this Script which you already copied and then save the script
 // You are ready to use new Custom function. For example: =COUNT_COLORS("Sheet1", "A1:F6")
 
+// Sample Sheet: https://docs.google.com/spreadsheets/d/1yVpfyLi1hh5FlWG1IonXd5Py-pXKO-DrhjFRStv0lGw/copy
+
 /**
  * Count Colored Cells Frequncy.
  *
