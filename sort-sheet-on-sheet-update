@@ -1,0 +1,44 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script can be used to update timestamp on each change in a Google Sheet. Script will update chnage timestamp in Col G. Then using that Column the sheet is being sorted is descedning update date order. (You can change Columns as per your requirement by changing values in lines 20-30)
+
+// How To Use It:
+// Goto https://script.google.com/home
+// Make A new Script
+// Paste Following Script In Your Script
+// Change Global Variables(lines 20-30 below) as per your requirements.
+// Save the file and then start using Google Sheets. [Note: This script doesn't needs authorization] 
+
+// Get Copy of Sheet in Action at:
+// https://docs.google.com/spreadsheets/d/1BY2SuGiThZKUayxhlHMPIZ65SN6tfPSemNKn6NkeE5M/copy
+
+// =============================================================================================
+// =============  Global Variables - Change this section according to your needs ===============
+// =============================================================================================
+
+// sheetName => Enter the name of the Sheet where you want to excute this script
+const sheetName = 'Sheet1'
+
+// timestampCol => Enter the Column number where you want to put timestamp for the last edit.
+const timestampCol = 7
+
+// columnsToCheck => Enter the column number before which script should check. E.g If you will writh 18, it will track edits in first 18 Columns.
+const columnsToCheck = 6
+
+// headerRows => Enter the number of header rows which you want to ignore from tracking.
+const headerRows = 1
+
+
+// =============================================================================================
+// ============  Time Trigger - Change it if you are sure about it =============================
+// =============================================================================================
+
+function onEdit(e) {
+	let row = e.range.getRow();
+	let col = e.range.getColumn();
+    let sheet = e.source.getActiveSheet();
+    if (col <= columnsToCheck && row > headerRows && sheet.getName() === sheetName) {
+      sheet.getRange(row,timestampCol).setValue(new Date())
+      sheet.getRange(headerRows+1, 1, sheet.getLastRow()-(headerRows+1), timestampCol).sort({column: timestampCol, ascending: false});
+  }
+}
