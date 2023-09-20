@@ -1,0 +1,46 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script moves the row in the sheet depending on the number specified in the Ranking Column.
+
+// How To Use It:
+// Goto https://script.google.com/home
+// Make A new Script
+// Paste Following Script In Your Script
+// Change Global Variables as per your requirements.
+
+// =====================================================================
+// Global Variables (Change These Variables As Per Your Requirement)
+// =====================================================================
+
+  const sourceSheetName = 'QUALIFYING';
+  const rankingColumn = 8;
+
+
+// ====================================================================
+// Main Script (Don't Change Following Code Unless You Know GAS Coding)
+// ====================================================================
+
+function onEdit(e) {
+  let curSheetName = e.source.getSheetName();
+  let curCol = e.range.getColumn();
+
+  if (curSheetName == sourceSheetName && curCol == rankingColumn) {
+    if (isNaN(e.value) && e.value != undefined) {
+      e.source.toast('Value in this Column must be a Number');
+      e.range.clear();
+    } else {
+      let sheet = e.source.getActiveSheet();
+      let destRowIndex = parseInt(e.value) + 1;
+      let rowToMoveRange = sheet.getRange(e.range.getRow() + ':' + e.range.getRow());
+      
+      // Moves the row to the selected row index
+      sheet.moveRows(rowToMoveRange, destRowIndex);
+
+      // Reset Ranking Numbers
+      let lastRow = sheet.getLastRow() - 1;
+      console.log(sheet.getRange(2, curCol, lastRow, 1).getA1Notation())
+      console.log(curCol, lastRow)
+      sheet.getRange(2, curCol, lastRow, 1).setValues([...Array(lastRow)].map((_,i) => [i+1]))
+    }
+  }
+}
