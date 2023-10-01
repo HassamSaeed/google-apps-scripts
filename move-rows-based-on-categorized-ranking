@@ -36,8 +36,8 @@ function onEdit(e) {
       try {
         let curRow = e.range.getRow();
         if (curRow === 2) sheet.getRange(1, rankingColumn).setFormula(`={"ranking";ArrayFormula(IF(B2:B<>"", COUNTIFS(B2:B&C2:C, B2:B&C2:C, ROW(B2:B), "<="&ROW(B2:B)), ""))}`)
-        let calc = (parseInt(e.value) - parseInt(e.oldValue) > 0) ? 1 : 0; 
-        let destRowIndex = curRow + (parseInt(e.value) - parseInt(e.oldValue)) + calc;
+        let calc = (e.value - e.oldValue > 0) ? 1 : 0; 
+        let destRowIndex = curRow + (e.value - e.oldValue) + calc;
         let rowToMoveRange = sheet.getRange(curRow + ':' + curRow);
 
         // Moves the row to the selected row index
