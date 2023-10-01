@@ -9,6 +9,8 @@
 // Change Global Variables as per your requirements.
 
 // Note: An Arrayformula was used in Col D: ={"ranking";"";ArrayFormula(IF(B3:B<>"", COUNTIFS(B3:B&C3:C, B3:B&C3:C, ROW(B3:B), "<="&ROW(B3:B)), ""))}
+// Copy of the working sheet can be obtained from:
+// https://docs.google.com/spreadsheets/d/1smOkQQHg6iDrZhBxa7_7q2qV9d-duhUNTHj2U1mm270/copy
 
 // =====================================================================
 // Global Variables (Change These Variables As Per Your Requirement)
@@ -33,6 +35,7 @@ function onEdit(e) {
       let sheet = e.source.getActiveSheet();
       try {
         let curRow = e.range.getRow();
+        if (curRow === 2) sheet.getRange(1, rankingColumn).setFormula(`={"ranking";ArrayFormula(IF(B2:B<>"", COUNTIFS(B2:B&C2:C, B2:B&C2:C, ROW(B2:B), "<="&ROW(B2:B)), ""))}`)
         let calc = (parseInt(e.value) - parseInt(e.oldValue) > 0) ? 1 : 0; 
         let destRowIndex = curRow + (parseInt(e.value) - parseInt(e.oldValue)) + calc;
         let rowToMoveRange = sheet.getRange(curRow + ':' + curRow);
@@ -42,7 +45,7 @@ function onEdit(e) {
       } catch (e) {
         console.error(e)
       }
-      sheet.getRange('D3:D').clearContent()
+      sheet.getRange('D2:D').clearContent()
     }
   }
 }
