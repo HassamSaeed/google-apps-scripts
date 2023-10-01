@@ -38,8 +38,6 @@ function onEdit(e) {
 
       // Reset Ranking Numbers
       let lastRow = sheet.getLastRow() - 1;
-      console.log(sheet.getRange(2, curCol, lastRow, 1).getA1Notation())
-      console.log(curCol, lastRow)
       sheet.getRange(2, curCol, lastRow, 1).setValues([...Array(lastRow)].map((_,i) => [i+1]))
     }
   }
