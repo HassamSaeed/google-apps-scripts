@@ -1,0 +1,48 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script moves the row in the sheet depending on the number specified in the Ranking Column.
+
+// How To Use It:
+// Goto https://script.google.com/home
+// Make A new Script
+// Paste Following Script In Your Script
+// Change Global Variables as per your requirements.
+
+// Note: An Arrayformula was used in Col D: ={"ranking";"";ArrayFormula(IF(B3:B<>"", COUNTIFS(B3:B&C3:C, B3:B&C3:C, ROW(B3:B), "<="&ROW(B3:B)), ""))}
+
+// =====================================================================
+// Global Variables (Change These Variables As Per Your Requirement)
+// =====================================================================
+
+const sourceSheetName = 'ranking';
+const rankingColumn = 4;
+
+
+// ====================================================================
+// Main Script (Don't Change Following Code Unless You Know GAS Coding)
+// ====================================================================
+
+function onEdit(e) {
+  let curSheetName = e.source.getSheetName();
+  let curCol = e.range.getColumn();
+  if (curSheetName == sourceSheetName && curCol == rankingColumn) {
+    if (isNaN(e.value) && e.value != undefined) {
+      e.source.toast('Value in this Column must be a Number');
+      e.range.clear();
+    } else {
+      let sheet = e.source.getActiveSheet();
+      try {
+        let curRow = e.range.getRow();
+        let calc = (parseInt(e.value) - parseInt(e.oldValue) > 0) ? 1 : 0; 
+        let destRowIndex = curRow + (parseInt(e.value) - parseInt(e.oldValue)) + calc;
+        let rowToMoveRange = sheet.getRange(curRow + ':' + curRow);
+
+        // Moves the row to the selected row index
+        sheet.moveRows(rowToMoveRange, destRowIndex);
+      } catch (e) {
+        console.error(e)
+      }
+      sheet.getRange('D3:D').clearContent()
+    }
+  }
+}
