@@ -1,0 +1,29 @@
+// Product: Google Apps Script
+// Copyrights: © GSheets.com
+// About the Script: This Script can be used to sort your sheet whenever the sheet gets open.
+
+// How To Use It:
+// Open your Google Sheet.
+// In the menu, click "Extensions" > "Apps Script"
+// Paste the following code in there.
+// Change the "Section 1" of the script below according to your needs.
+// Press Ctrl + S (or click on save button) and then
+
+// =============================================================================================
+// =========== Section 1: Variables - Change this section according to your needs ==============
+// =============================================================================================
+
+const sheetName = 'Sheet1'; // Put your sheet name here e.g 'Inventory'  [Note: Keep the single quotes]
+const hasHeader = true; // If your sheet doesn't have header row then change it to false
+const columnToSort = 2; // Give column number here. Col A = 1, Col B = 2 .....
+const sortAscending = true; // Change it to false, if you want to sort in descending order.
+
+// =============================================================================================
+// ==========  Section 2: Avoid Changing following code, unless you know coding =================
+// =============================================================================================
+
+function onOpen(event) {
+  const sheet = event.source.getSheetByName(sheetName);
+  const range = sheet.getRange(hasHeader ? 2 : 1,1,sheet.getLastRow(), sheet.getLastColumn());
+  range.sort({ column: columnToSort, ascending: sortAscending }); // Sorts by the second column in ascending order
+}
