@@ -1,0 +1,67 @@
+function onOpen() {
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('ITfiers')
+    .addItem('Save Images to Google Drive', 'saveToGDrive')
+    .addToUi();
+}
+
+function saveToGDrive() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues();
+  
+  // Assuming the first row is the header
+  var headers = data[0];
+  var imageUrlIndex = headers.indexOf("Image URL");
+  var categoryIndex = headers.indexOf("Category");
+  var gdriveImageUrlIndex = headers.indexOf("GDrive Image URL");
+  
+  if (imageUrlIndex === -1 || categoryIndex === -1 || gdriveImageUrlIndex === -1) {
+    SpreadsheetApp.getUi().alert("One or more required columns (Image URL, Category, GDrive Image URL) are missing.");
+    return;
+  }
+  
+  var folder = DriveApp.getFolderById("______________________"); // Replace with your main folder ID
+  var gdriveUrls = [];
+  
+  for (var i = 1; i < data.length; i++) {
+    var imageUrl = data[i][imageUrlIndex];
+    var category = data[i][categoryIndex];
+    if (imageUrl && category) {
+      var categoryFolder = getOrCreateFolder(folder, category);
+      var file = saveImageToDrive(imageUrl, categoryFolder);
+      if (file) {
+        var fileUrl = "https://drive.google.com/uc?id=" + file.getId();
+        gdriveUrls.push([fileUrl]);
+      } else {
+        gdriveUrls.push(["Failed to save image"]);
+      }
+    } else {
+      gdriveUrls.push([""]);
+    }
+  }
+  
+  var gdriveImageUrlRange = sheet.getRange(2, gdriveImageUrlIndex + 1, gdriveUrls.length, 1);
+  gdriveImageUrlRange.setValues(gdriveUrls);
+}
+
+function getOrCreateFolder(parentFolder, folderName) {
+  var folders = parentFolder.getFoldersByName(folderName);
+  if (folders.hasNext()) {
+    return folders.next();
+  } else {
+    return parentFolder.createFolder(folderName);
+  }
+}
+
+function saveImageToDrive(imageUrl, folder) {
+  try {
+    var response = UrlFetchApp.fetch(imageUrl);
+    var blob = response.getBlob();
+    var fileName = imageUrl.split('/').pop().split('?')[0];
+    var file = folder.createFile(blob).setName(fileName);
+    return file;
+  } catch (e) {
+    Logger.log("Error fetching image from URL: " + imageUrl + " - " + e.message);
+    return null;
+  }
+}
